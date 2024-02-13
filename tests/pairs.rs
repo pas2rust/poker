@@ -5,7 +5,7 @@ use poker::{
 };
 
 #[test]
-fn two_pair() {
+fn two_pair_seven_cards() {
     let mut hand = Hand::new(
         [
             Card::new(Number::Two, Suit::Hearts),
@@ -24,8 +24,7 @@ fn two_pair() {
 }
 
 #[test]
-//#[ignore = "Straight Bug"]
-fn three_pair() {
+fn three_pair_seven_cards() {
     let mut hand = Hand::new(
         [
             Card::new(Number::Two, Suit::Hearts),
@@ -44,7 +43,7 @@ fn three_pair() {
 }
 
 #[test]
-fn one_pair() {
+fn one_pair_seven_cards() {
     let mut hand = Hand::new(
         [
             Card::new(Number::Two, Suit::Hearts),
@@ -54,6 +53,40 @@ fn one_pair() {
             Card::new(Number::Six, Suit::Hearts),
             Card::new(Number::King, Suit::Spades),
             Card::new(Number::Ace, Suit::Diamonds),
+        ]
+        .to_vec(),
+    );
+    let combination = hand.is_combination();
+    hand.sort_to_descending();
+    assert_eq!(combination, Some(Combination::OnePair(hand)));
+}
+
+#[test]
+fn two_pair_five_cards() {
+    let mut hand = Hand::new(
+        [
+            Card::new(Number::Two, Suit::Hearts),
+            Card::new(Number::Two, Suit::Diamonds),
+            Card::new(Number::Three, Suit::Clubs),
+            Card::new(Number::Four, Suit::Spades),
+            Card::new(Number::Four, Suit::Hearts),
+        ]
+        .to_vec(),
+    );
+    let combination = hand.is_combination();
+    hand.sort_to_descending();
+    assert_eq!(combination, Some(Combination::TwoPair(hand)));
+}
+
+#[test]
+fn one_pair_five_cards() {
+    let mut hand = Hand::new(
+        [
+            Card::new(Number::Two, Suit::Hearts),
+            Card::new(Number::Two, Suit::Diamonds),
+            Card::new(Number::Three, Suit::Clubs),
+            Card::new(Number::Five, Suit::Spades),
+            Card::new(Number::Six, Suit::Hearts),
         ]
         .to_vec(),
     );
