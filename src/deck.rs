@@ -5,9 +5,7 @@ use serde::{Deserialize, Serialize};
 
 pub type Cards = Vec<Card>;
 
-#[derive(
-    Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default,
-)]
+#[derive(Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Deck {
     pub cards: Cards,
 }

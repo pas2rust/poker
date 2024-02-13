@@ -9,9 +9,7 @@ pub enum TableKind {
     Tournament,
 }
 
-#[derive(
-    Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default,
-)]
+#[derive(Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Table {
     pub deck: Deck,
     pub players: (),

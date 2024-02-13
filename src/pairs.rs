@@ -28,9 +28,7 @@ pub fn pairs(hand: &mut Hand) -> Option<Combination> {
             }
         }
         6 => {
-            if pairs[0].number != pairs[2].number
-                && pairs[2].number != pairs[4].number
-            {
+            if pairs[0].number != pairs[2].number && pairs[2].number != pairs[4].number {
                 Some(Combination::TwoPair(hand.clone()))
             } else {
                 None

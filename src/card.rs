@@ -3,17 +3,7 @@ use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
 
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    Deserialize,
-    Serialize,
-    Default,
+    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Deserialize, Serialize, Default,
 )]
 pub enum Suit {
     #[default]
@@ -25,17 +15,7 @@ pub enum Suit {
 }
 
 #[derive(
-    Clone,
-    Copy,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    Deserialize,
-    Serialize,
-    Default,
+    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Deserialize, Serialize, Default,
 )]
 pub enum Number {
     None = -2,
@@ -84,11 +64,7 @@ pub trait CardTrait {
 }
 
 impl CardTrait for Card {
-    fn transform(
-        &mut self,
-        new_suit: Suit,
-        new_number: Number,
-    ) -> Result<(), &str> {
+    fn transform(&mut self, new_suit: Suit, new_number: Number) -> Result<(), &str> {
         if let Self { suit: _, number: Number::Joker } = self {
             self.set_number(new_number);
             self.set_suit(new_suit);

@@ -27,9 +27,7 @@ pub trait CombinationTrait {
 
 impl CombinationTrait for Combination {
     fn power(&self) -> Power {
-        let sum = |hand: &Hand| {
-            hand.cards.iter().map(|c| c.number.value()).sum::<usize>()
-        };
+        let sum = |hand: &Hand| hand.cards.iter().map(|c| c.number.value()).sum::<usize>();
         match self {
             Self::RoyalStraightFlush(hand) => {
                 let mut power = Power::new(10000);
