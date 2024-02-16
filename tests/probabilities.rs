@@ -20,9 +20,10 @@ fn poker_probabilities_seven_draws() {
 
     for _ in 0..trials {
         let mut deck = Deck::poker();
-        deck.shuffle();
+
         let draws = deck.draw(7);
         let mut hand = Hand::new(draws);
+        deck.shuffle();
         let combination = hand.is_combination().expect("also combination must be some");
         *counts.entry(combination.to_str().to_string()).or_insert(0) += 1;
     }
@@ -126,15 +127,13 @@ pub struct Is {
 }
 
 #[test]
-#[ignore = "time"]
 fn test_poker_hand_seven_cards_combinations() {
-    let mut deck = Deck::poker();
-    deck.shuffle();
+    let deck = Deck::poker();
     let combinations = deck.cards.iter().combinations(7);
     let mut is = Is::default();
     let is_expected = Is::new(
-        32,          // Royal Straight Flush
-        5_448,       // Straight Flush (excluindo Royal Straight Flush)
+        4_324,       // Royal Straight Flush
+        37_260,      // Straight Flush (excluindo Royal Straight Flush)
         224_848,     // Four of a Kind
         3_473_184,   // Full House
         4_047_644,   // Flush (excluindo Straight Flush)
@@ -174,14 +173,23 @@ fn test_poker_hand_seven_cards_combinations() {
 }
 
 #[test]
-#[ignore = "time"]
 fn test_poker_hand_five_cards_combinations() {
-    let mut deck = Deck::poker();
-    deck.shuffle();
+    let deck = Deck::poker();
     let combinations = deck.cards.iter().combinations(5);
     let mut is = Is::default();
-    let is_expected =
-        Is::new(4, 40, 624, 3_744, 5_108, 10_200, 54_912, 123_552, 1_098_240, 1_302_540, 2_598_960);
+    let is_expected = Is::new(
+        4,         // Royal Straight Flush
+        36,        // Straight Flush (excluindo Royal Straight Flush)
+        624,       // Four of a Kind
+        3_744,     // Full House
+        5_108,     // Flush (excluindo Straight Flush)
+        10_200,    // Straight (excluindo Straight Flush)
+        54_912,    // Three of a Kind
+        123_552,   // Two Pair
+        1_098_240, // One Pair
+        1_302_540, // High Card
+        2_598_960, // Total Hand Count
+    );
     for cards in combinations {
         let mut hand = Hand::new(cards.iter().map(|card| (*card).clone()).collect());
         is.sum_hand_count(1);

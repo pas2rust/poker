@@ -1,4 +1,4 @@
-use crate::combination::Combination;
+use crate::{card::Suit, combination::Combination};
 
 use super::{
     card::{Card, Number},
@@ -23,16 +23,8 @@ pub trait HandTrait {
     fn sort_to_descending(&mut self);
     fn sort_to_ascending(&mut self);
     fn count_card_numbers(&mut self) -> HashMap<Number, i32>;
-    fn is_high_card(&mut self) -> Option<Combination>;
-    fn is_flush(&mut self) -> Option<Combination>;
-    fn is_four_of_a_kind(&mut self) -> Option<Combination>;
-    fn is_full_house(&mut self) -> Option<Combination>;
-    fn is_pairs(&mut self) -> Option<Combination>;
-    fn is_royal_straight_flush(&mut self) -> Option<Combination>;
-    fn is_straight(&mut self) -> Option<Combination>;
-    fn is_straight_flush(&mut self) -> Option<Combination>;
-    fn is_three_of_a_kind(&mut self) -> Option<Combination>;
     fn is_combination(&mut self) -> Option<Combination>;
+    fn count_card_suits(&mut self) -> HashMap<Suit, i32>;
 }
 
 impl HandTrait for Hand {
@@ -49,44 +41,24 @@ impl HandTrait for Hand {
         }
         counts
     }
-    fn is_high_card(&mut self) -> Option<Combination> {
-        high_card(self)
-    }
-    fn is_flush(&mut self) -> Option<Combination> {
-        flush(self)
-    }
-    fn is_four_of_a_kind(&mut self) -> Option<Combination> {
-        four_of_a_kind(self)
-    }
-    fn is_full_house(&mut self) -> Option<Combination> {
-        full_house(self)
-    }
-    fn is_pairs(&mut self) -> Option<Combination> {
-        pairs(self)
-    }
-    fn is_royal_straight_flush(&mut self) -> Option<Combination> {
-        royal_straight_flush(self)
-    }
-    fn is_straight(&mut self) -> Option<Combination> {
-        straight(self)
-    }
-    fn is_straight_flush(&mut self) -> Option<Combination> {
-        straight_flush(self)
-    }
-    fn is_three_of_a_kind(&mut self) -> Option<Combination> {
-        three_of_a_kind(self)
+    fn count_card_suits(&mut self) -> HashMap<Suit, i32> {
+        let mut counts = HashMap::new();
+        for &card in &self.cards {
+            *counts.entry(card.suit).or_insert(0) += 1;
+        }
+        counts
     }
     fn is_combination(&mut self) -> Option<Combination> {
         [
-            self.is_royal_straight_flush(),
-            self.is_straight_flush(),
-            self.is_four_of_a_kind(),
-            self.is_full_house(),
-            self.is_flush(),
-            self.is_straight(),
-            self.is_three_of_a_kind(),
-            self.is_pairs(),
-            self.is_high_card(),
+            royal_straight_flush(self),
+            straight_flush(self),
+            four_of_a_kind(self),
+            full_house(self),
+            flush(self),
+            straight(self),
+            three_of_a_kind(self),
+            pairs(self),
+            high_card(self),
         ]
         .iter()
         .find_map(|r| r.clone())

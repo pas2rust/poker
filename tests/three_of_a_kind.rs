@@ -5,7 +5,7 @@ use poker::{
 };
 
 #[test]
-fn three_of_a_kind() {
+fn three_of_a_kind_seven_cards() {
     let mut hand = Hand::new(
         [
             Card::new(Number::Two, Suit::Hearts),
@@ -15,6 +15,23 @@ fn three_of_a_kind() {
             Card::new(Number::Six, Suit::Hearts),
             Card::new(Number::King, Suit::Spades),
             Card::new(Number::Ace, Suit::Diamonds),
+        ]
+        .to_vec(),
+    );
+    let combination = hand.is_combination();
+    hand.sort_to_descending();
+    assert_eq!(combination, Some(Combination::ThreeOfAKind(hand)));
+}
+
+#[test]
+fn three_of_a_kind_five_cards() {
+    let mut hand = Hand::new(
+        [
+            Card::new(Number::Two, Suit::Hearts),
+            Card::new(Number::Two, Suit::Diamonds),
+            Card::new(Number::Two, Suit::Clubs),
+            Card::new(Number::Five, Suit::Spades),
+            Card::new(Number::Six, Suit::Hearts),
         ]
         .to_vec(),
     );
