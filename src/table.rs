@@ -1,8 +1,10 @@
-use super::deck::{Deck, DeckTrait};
+use crate::player::Player;
+use super::round::Round;
+use super::deck::Deck;
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
+#[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default, Copy)]
 pub enum TableKind {
     #[default]
     Cash,
@@ -11,25 +13,19 @@ pub enum TableKind {
 
 #[derive(Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Table {
+    pub id: String,
     pub deck: Deck,
-    pub players: (),
-    pub round: (),
-    pub history: (),
+    pub players: Vec<Player>,
+    pub rounds: Vec<Round>,
     pub kind: TableKind,
 }
 
 pub trait TableTrait {
-    fn create(&mut self) -> Self;
+    fn get_current_round(&mut self) -> &mut Round;
 }
 
 impl TableTrait for Table {
-    fn create(&mut self) -> Self {
-        let deck = &mut self.deck;
-        let players = self.players;
-        let round = self.round;
-        let history = self.history;
-        let kind = &self.kind;
-        deck.shuffle();
-        Self::new(deck.clone(), players, round, history, kind.clone())
+    fn get_current_round(&mut self) -> &mut Round {
+        &mut self.rounds[0]
     }
 }

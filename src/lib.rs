@@ -14,3 +14,4 @@ pub mod straight;
 pub mod straight_flush;
 pub mod table;
 pub mod three_of_a_kind;
+pub mod round;

@@ -13,8 +13,10 @@ use super::{
     three_of_a_kind::three_of_a_kind,
 };
 use darth_rust::DarthRust;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-#[derive(Clone, Debug, DarthRust, Default, PartialEq, Eq, Hash)]
+
+#[derive(Clone, Debug, DarthRust, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct Hand {
     pub cards: Vec<Card>,
 }
