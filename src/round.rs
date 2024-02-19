@@ -1,7 +1,5 @@
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
-use wrapper_uuid::wrapper::UuidTrait;
-use wrapper_uuid::wrapper::WrapperUuid;
 
 use crate::deck::Deck;
 use crate::deck::DeckTrait;
