@@ -43,6 +43,27 @@ pub struct Player {
     pub hand: Hand,
 }
 
+fn for_players(positions: Vec<Position>, deck: &mut Deck) -> Vec<Player> {
+    let mut players = Vec::new();
+    for position in positions {
+        let state = match position {
+           Position::Utg => State::Thinking,
+           _ => State::Waiting
+        };
+        let player = Player::new(
+            WrapperUuid::create(),
+            vec![],
+            position,
+            1000,
+            0,
+            state,
+            Hand::new(deck.draw(2)),
+        );
+        players.push(player);
+    }
+    players
+}
+
 pub trait PlayerTrait {
     fn new_nine_players(deck: &mut Deck) -> Vec<Player>;
     fn new_six_players(deck: &mut Deck) -> Vec<Player>;
@@ -61,25 +82,7 @@ impl PlayerTrait for Player {
             Position::SmallBlind,
             Position::BigBlind,
         ];
-
-        let mut players = Vec::new();
-        for position in positions {
-            let state = match position {
-               Position::Utg => State::Thinking,
-               _ => State::Waiting
-            };
-            let player = Player::new(
-                WrapperUuid::create(),
-                vec![],
-                position,
-                1000,
-                0,
-                state,
-                Hand::new(deck.draw(2)),
-            );
-            players.push(player);
-        }
-        players
+        for_players(positions, deck)
     }
     fn new_six_players(deck: &mut Deck) -> Vec<Player> {
         let positions = vec![
@@ -90,23 +93,6 @@ impl PlayerTrait for Player {
             Position::SmallBlind,
             Position::BigBlind,
         ];
-        let mut players = Vec::new();
-        for position in positions {
-            let state = match position {
-                Position::Utg => State::Thinking,
-                _ => State::Waiting
-            };
-            let player = Player::new(
-                WrapperUuid::create(),
-                vec![],
-                position,
-                1000,
-                0,
-                state,
-                Hand::new(deck.draw(2)),
-            );
-            players.push(player);
-        }
-        players
+        for_players(positions, deck)
     }
 }
