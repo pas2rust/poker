@@ -30,9 +30,10 @@ pub trait RoundTrait {
     fn river(deck: &mut Deck) -> Card;
     fn turn(deck: &mut Deck) -> Card;
     fn update_round(&mut self);
-    fn get_participants(&mut self) -> Vec<Player>;
-    fn get_dropouts(&mut self) -> Vec<Player>;
-    fn get_current_player(&mut self) -> Player;
+    fn get_participants(&mut self) -> Vec<&mut Player>;
+    fn get_dropouts(&mut self) -> Vec<&mut Player>;
+    fn get_thinking_player(&mut self) -> &mut Player;
+    fn get_biggest_bettor(&mut self) -> &mut Player;
 }
 
 impl RoundTrait for Round {
@@ -73,18 +74,20 @@ impl RoundTrait for Round {
             };
         }
     }
-    fn get_participants(&mut self) -> Vec<Player> {
-        self.players.iter().filter(|p| p.state != State::Fold).cloned().collect::<Vec<_>>()
+    fn get_participants(&mut self) -> Vec<&mut Player> {
+        self.players.iter_mut().filter(|p| p.state != State::Fold).collect::<Vec<_>>()
     }
-    fn get_dropouts(&mut self) -> Vec<Player> {
-        self.players.iter().filter(|p| p.state == State::Fold).cloned().collect::<Vec<_>>()
+    fn get_dropouts(&mut self) -> Vec<&mut Player> {
+        self.players.iter_mut().filter(|p| p.state == State::Fold).collect::<Vec<_>>()
     }
-    fn get_current_player(&mut self) -> Player {
+    fn get_thinking_player(&mut self) -> &mut Player {
         self.players
-            .iter()
+            .iter_mut()
             .find(|p| p.state == State::Thinking)
-            .cloned()
-            .expect("current player must be provided")
+            .expect("Thinking player must be provided")
+    }
+    fn get_biggest_bettor(&mut self) -> &mut Player {
+        self.players.iter_mut().max_by_key(|p| p.bet).expect("player must be provided")
     }
     fn update_round(&mut self) {
         self.update_blinds();

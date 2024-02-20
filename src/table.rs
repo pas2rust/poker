@@ -25,6 +25,6 @@ pub trait TableTrait {
 
 impl TableTrait for Table {
     fn get_current_round(&mut self) -> &mut Round {
-        &mut self.rounds[0]
+        self.rounds.last_mut().expect("vec rounds must be provided")
     }
 }
