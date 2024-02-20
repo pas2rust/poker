@@ -1,6 +1,5 @@
+use super::{deck::Deck, round::Round};
 use crate::player::Player;
-use super::round::Round;
-use super::deck::Deck;
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
 

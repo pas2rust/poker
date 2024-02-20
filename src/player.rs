@@ -1,9 +1,11 @@
+use crate::{
+    deck::{Deck, DeckTrait},
+    hand::Hand,
+    round::Round,
+};
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
 use wrapper_uuid::wrapper::{UuidTrait, WrapperUuid};
-use crate::{deck::{Deck, DeckTrait}, hand::Hand, round::Round};
-
-use super::card::Card;
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub enum State {
@@ -13,7 +15,8 @@ pub enum State {
     Fold,
     Check,
     Call,
-    Raise
+    Raise,
+    Allin,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone, PartialEq, Default)]
@@ -47,8 +50,8 @@ fn for_players(positions: Vec<Position>, deck: &mut Deck) -> Vec<Player> {
     let mut players = Vec::new();
     for position in positions {
         let state = match position {
-           Position::Utg => State::Thinking,
-           _ => State::Waiting
+            Position::Utg => State::Thinking,
+            _ => State::Waiting,
         };
         let player = Player::new(
             WrapperUuid::create(),

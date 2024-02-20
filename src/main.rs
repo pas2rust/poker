@@ -1,4 +1,9 @@
-use poker::{deck::{Deck, DeckTrait}, player::{Player, PlayerTrait}, round::{Round, RoundTrait}, table::{Table, TableKind, TableTrait}};
+use poker::{
+    deck::{Deck, DeckTrait},
+    player::{Player, PlayerTrait},
+    round::{Round, RoundTrait},
+    table::{Table, TableKind, TableTrait},
+};
 use wrapper_uuid::wrapper::{UuidTrait, WrapperUuid};
 
 fn main() {
@@ -13,17 +18,11 @@ fn main() {
         Round::river(&mut deck),
         Round::turn(&mut deck),
         2,
-        1
+        1,
     );
-    let mut table = Table::new(
-        WrapperUuid::create(),
-        deck,
-        players,
-        vec![round],
-        TableKind::Cash
-    );
-    table.get_current_round().update_blinds();
-    table.get_current_round().print_info_players("after update_blinds");
-    table.get_current_round().update_pot();
-    table.get_current_round().print_info_pot("after update_pot");
+    let mut table = Table::new(WrapperUuid::create(), deck, players, vec![round], TableKind::Cash);
+    let current_round = table.get_current_round();
+    current_round.update_round();
+    let current_player = current_round.get_current_player();
+    current_player.print_info("Player thinking...")
 }

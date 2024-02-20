@@ -97,7 +97,7 @@ impl CardTrait for Card {
             return Ok(deck.draw_specific(Self::new(Number::Seven, self.suit)));
         }
         if let Self { suit: _, number: Number::Five } = self {
-            return Ok(deck.draw_specific(Self::new(Number::Two, self.suit)));
+            Ok(deck.draw_specific(Self::new(Number::Two, self.suit)))
         } else {
             let msg = "This card does not have a specific draw rule";
             self.print_err(msg);
