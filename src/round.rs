@@ -33,7 +33,8 @@ pub trait RoundTrait {
     fn get_participants(&mut self) -> Vec<&mut Player>;
     fn get_dropouts(&mut self) -> Vec<&mut Player>;
     fn get_thinking_player(&mut self) -> &mut Player;
-    fn get_biggest_bettor(&mut self) -> &mut Player;
+    fn get_biggest_bettor(&self) -> &Player;
+    fn thinking_player_call(&mut self);
 }
 
 impl RoundTrait for Round {
@@ -86,11 +87,19 @@ impl RoundTrait for Round {
             .find(|p| p.state == State::Thinking)
             .expect("Thinking player must be provided")
     }
-    fn get_biggest_bettor(&mut self) -> &mut Player {
-        self.players.iter_mut().max_by_key(|p| p.bet).expect("player must be provided")
+    fn get_biggest_bettor(&self) -> &Player {
+        self.players.iter().max_by_key(|p| p.bet).expect("player must be provided")
     }
     fn update_round(&mut self) {
         self.update_blinds();
         self.update_pot();
+    }
+    fn thinking_player_call(&mut self) {
+        let biggest_bettor = self.get_biggest_bettor().clone();
+        let thinking_player = self.get_thinking_player();
+        let bet = biggest_bettor.bet;
+        thinking_player.set_bet(bet);
+        thinking_player.subtract_stack(bet);
+        self.update_round()
     }
 }

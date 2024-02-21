@@ -1,5 +1,5 @@
 use super::{deck::Deck, round::Round};
-use crate::player::Player;
+use crate::{player::Player, round::RoundTrait};
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
 
@@ -25,6 +25,8 @@ pub trait TableTrait {
 
 impl TableTrait for Table {
     fn get_current_round(&mut self) -> &mut Round {
-        self.rounds.last_mut().expect("vec rounds must be provided")
+        let round = self.rounds.last_mut().expect("vec rounds must be provided");
+        round.update_round();
+        round
     }
 }

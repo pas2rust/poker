@@ -1,7 +1,7 @@
 use crate::{
     deck::{Deck, DeckTrait},
     hand::Hand,
-    round::Round,
+    round::{Round, RoundTrait},
 };
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
@@ -70,7 +70,6 @@ fn for_players(positions: Vec<Position>, deck: &mut Deck) -> Vec<Player> {
 pub trait PlayerTrait {
     fn new_nine_players(deck: &mut Deck) -> Vec<Player>;
     fn new_six_players(deck: &mut Deck) -> Vec<Player>;
-    fn call(&mut self, current_round: &mut Round);
 }
 
 impl PlayerTrait for Player {
@@ -98,8 +97,5 @@ impl PlayerTrait for Player {
             Position::BigBlind,
         ];
         for_players(positions, deck)
-    }
-    fn call(&mut self, current_round: &mut Round) {
-
     }
 }

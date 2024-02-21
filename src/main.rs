@@ -22,8 +22,6 @@ fn main() {
     );
     let mut table = Table::new(WrapperUuid::create(), deck, players, vec![round], TableKind::Cash);
     let current_round = table.get_current_round();
-    current_round.update_round();
-    current_round.print_info("after update_round");
-    let current_player = current_round.get_thinking_player();
-    current_player.print_info("Player thinking...");
+    current_round.thinking_player_call();
+    current_round.print_info_pot("after call");
 }
