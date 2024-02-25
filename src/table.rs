@@ -14,7 +14,6 @@ pub enum TableKind {
 pub struct Table {
     pub id: String,
     pub deck: Deck,
-    pub players: Vec<Player>,
     pub rounds: Vec<Round>,
     pub kind: TableKind,
 }

@@ -103,14 +103,11 @@ impl RoundTrait for Round {
         let thinking_player = self.get_thinking_player().clone();
         let mut participants = self.get_participants();
         let mut next_thinking_index = 0;
-
-        for (index, player) in participants.iter().enumerate() {
+        participants.iter().enumerate().for_each(|(index, player)| {
             if player.id == thinking_player.id {
                 next_thinking_index = (index + 1) % participants.len();
-                break;
             }
-        }
-
+        });
         participants[next_thinking_index].set_state(State::Thinking);
     }
     fn thinking_player_call(&mut self) {
