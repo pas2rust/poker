@@ -30,10 +30,11 @@ pub trait RoundTrait {
     fn river(deck: &mut Deck) -> Card;
     fn turn(deck: &mut Deck) -> Card;
     fn update_round(&mut self);
+    fn update_thinking(&mut self);
     fn get_participants(&mut self) -> Vec<&mut Player>;
     fn get_dropouts(&mut self) -> Vec<&mut Player>;
     fn get_thinking_player(&mut self) -> &mut Player;
-    fn get_biggest_bettor(&self) -> &Player;
+    fn get_biggest_bettor(&mut self) -> &mut Player;
     fn thinking_player_call(&mut self);
 }
 
@@ -82,24 +83,40 @@ impl RoundTrait for Round {
         self.players.iter_mut().filter(|p| p.state == State::Fold).collect::<Vec<_>>()
     }
     fn get_thinking_player(&mut self) -> &mut Player {
-        self.players
-            .iter_mut()
+        self.get_participants()
+            .into_iter()
             .find(|p| p.state == State::Thinking)
             .expect("Thinking player must be provided")
     }
-    fn get_biggest_bettor(&self) -> &Player {
-        self.players.iter().max_by_key(|p| p.bet).expect("player must be provided")
+    fn get_biggest_bettor(&mut self) -> &mut Player {
+        self.get_participants().into_iter().max_by_key(|p| p.bet).expect("player must be provided")
     }
     fn update_round(&mut self) {
         self.update_blinds();
         self.update_pot();
     }
+    fn update_thinking(&mut self) {
+        let thinking_player = self.get_thinking_player().clone();
+        let mut participants = self.get_participants();
+        let mut next_thinking_index = 0;
+
+        for (index, player) in participants.iter().enumerate() {
+            if player.id == thinking_player.id {
+                next_thinking_index = (index + 1) % participants.len();
+                break;
+            }
+        }
+
+        participants[next_thinking_index].set_state(State::Thinking);
+    }
     fn thinking_player_call(&mut self) {
+        self.update_thinking();
         let biggest_bettor = self.get_biggest_bettor().clone();
         let thinking_player = self.get_thinking_player();
         let bet = biggest_bettor.bet;
         thinking_player.set_bet(bet);
         thinking_player.subtract_stack(bet);
+        thinking_player.set_state(State::Call);
         self.update_round()
     }
 }

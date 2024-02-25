@@ -1,7 +1,7 @@
 use crate::{
     deck::{Deck, DeckTrait},
     hand::Hand,
-    round::{Round, RoundTrait},
+    round::Round,
 };
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
@@ -23,17 +23,16 @@ pub enum State {
 pub enum Position {
     #[default]
     Utg,
-    UtgPlus1,
-    UtgPlus2,
-    MiddlePosition1,
-    MiddlePosition2,
-    MiddlePosition3,
+    Utg1,
+    Utg2,
     MiddlePosition,
+    MiddlePosition1,
     CutOff,
     Button,
     SmallBlind,
     BigBlind,
 }
+
 
 #[derive(Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Player {
@@ -76,10 +75,9 @@ impl PlayerTrait for Player {
     fn new_nine_players(deck: &mut Deck) -> Vec<Player> {
         let positions = vec![
             Position::Utg,
-            Position::UtgPlus1,
-            Position::UtgPlus2,
+            Position::Utg1,
+            Position::Utg2,
             Position::MiddlePosition1,
-            Position::MiddlePosition2,
             Position::CutOff,
             Position::Button,
             Position::SmallBlind,
