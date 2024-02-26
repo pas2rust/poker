@@ -29,4 +29,6 @@ fn main() {
     current_round.print_info("after raise multiply");
     current_round.thinking_player_raise(6);
     current_round.print_info("after raise");
+    current_round.thinking_player_fold();
+    current_round.print_info("after fold");
 }
