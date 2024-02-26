@@ -38,7 +38,7 @@ pub trait RoundTrait {
     fn thinking_player_call(&mut self);
     fn thinking_player_fold(&mut self);
     fn thinking_player_all_in(&mut self);
-    fn thinking_player_raise(&mut self, size: u32);
+    fn thinking_player_raise(&mut self, bet: u32);
     fn thinking_player_raise_multiply(&mut self, mult: u32);
 }
 
@@ -120,12 +120,9 @@ impl RoundTrait for Round {
         thinking_player.set_state(State::Call);
         self.update_round()
     }
-    fn thinking_player_raise(&mut self, size: u32) {
+    fn thinking_player_raise(&mut self, bet: u32) {
         self.update_thinking();
-        let mut biggest_bettor = self.get_biggest_bettor().clone();
         let thinking_player = self.get_thinking_player();
-        biggest_bettor.sum_bet(size);
-        let bet = biggest_bettor.bet;
         thinking_player.set_bet(bet);
         thinking_player.subtract_stack(bet);
         thinking_player.set_state(State::Raise);

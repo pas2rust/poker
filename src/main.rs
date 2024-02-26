@@ -22,8 +22,11 @@ fn main() {
     );
     let mut table = Table::new(WrapperUuid::create(), deck, vec![round], TableKind::Cash);
     let current_round = table.get_current_round();
+    current_round.print_info("init");
     current_round.thinking_player_call();
     current_round.print_info("after call");
-    current_round.thinking_player_call();
-    current_round.print_info("after second call");
+    current_round.thinking_player_raise_multiply(2);
+    current_round.print_info("after raise multiply");
+    current_round.thinking_player_raise(6);
+    current_round.print_info("after raise");
 }
