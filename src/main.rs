@@ -24,4 +24,6 @@ fn main() {
     let current_round = table.get_current_round();
     current_round.thinking_player_call();
     current_round.print_info("after call");
+    current_round.thinking_player_call();
+    current_round.print_info("after second call");
 }
