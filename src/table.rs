@@ -1,5 +1,5 @@
 use super::{deck::Deck, round::Round};
-use crate::{player::Player, round::RoundTrait};
+use crate::round::RoundTrait;
 use darth_rust::DarthRust;
 use serde::{Deserialize, Serialize};
 

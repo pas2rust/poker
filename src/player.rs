@@ -33,7 +33,6 @@ pub enum Position {
     BigBlind,
 }
 
-
 #[derive(Debug, DarthRust, Deserialize, Serialize, Clone, PartialEq, Default)]
 pub struct Player {
     pub id: String,
